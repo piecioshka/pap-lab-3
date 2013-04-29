@@ -6,18 +6,31 @@
 #include "../../library/utils.h"
 
 int create_socket() {
-    return socket(PF_INET, SOCK_STREAM, 0);
+    int socket_id;
+
+    /* run socket function */
+    socket_id = socket(PF_INET, SOCK_STREAM, 0);
+
+    /* if error occur - send message to user */
+    if (socket_id == -1) {
+        fprintf(stderr, "ERROR: unable to create socket\n");
+        exit(0);
+    }
+
+    printf("create socket: %d\n", socket_id);
+
+    return socket_id;
 }
 
 int main () {
     /* test_console_lib(); */
-    int first_socket;
+    int i = 10;
 
     printf("create client instance\n");
 
-    first_socket = create_socket();
-
-    printf("%d\n", first_socket);
+    while (--i) {
+        create_socket();
+    }
 
     return 0;
 }
