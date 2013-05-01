@@ -6,16 +6,18 @@ CFLAGS = -Wall --pedantic
 TARGET = bin/
 SRC = source/
 
-SZAD1 = ${SRC}zad1/
-TZAD1 = ${TARGET}zad1/
-
-zadania: zad1
- 
-zad1:
-	${CC} ${CFLAGS} ${SZAD1}client.c -o ${TZAD1}client.o
-	${CC} ${CFLAGS} ${SZAD1}server.c -o ${TZAD1}server.o
+all:
+	@for number in {1..12} ; do \
+	    echo ${SRC}zad$$number/client.* ; \
+	    ${CC} ${CFLAGS} ${SRC}zad$$number/client.c -o ${TARGET}zad$$number/client.o ; \
+	    echo ${SRC}zad$$number/server.* ; \
+	    ${CC} ${CFLAGS} ${SRC}zad$$number/server.c -o ${TARGET}zad$$number/server.o ; \
+	    if [ $$number -lt 12 ]; then \
+		echo "------------------------------------------------------------" ; \
+	    fi ; \
+	done
 
 clean:
-	rm -rf ${TZAD1}*.o
+	find ${TARGET} -name "*.o" | xargs rm -rf
 
-.PHONY: zadania clean
+.PHONY: all clean
