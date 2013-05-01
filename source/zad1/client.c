@@ -1,13 +1,5 @@
 /* client - lab3-4 - zadanie 1 */
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-
 #include "../../library/utils.h"
 
 #define PORT 13

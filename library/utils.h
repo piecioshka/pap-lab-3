@@ -1,6 +1,13 @@
 /* utilities functions */
 
 #include <errno.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
 
 void test_console_lib () {
     printf("library \"console.h\" is exists!\n");
@@ -38,7 +45,7 @@ int create_connection (int socket, struct sockaddr_in address) {
     char * ip = inet_ntoa(client_ip);
     unsigned short port = ntohs(address.sin_port);
 
-    printf("try to connecting %s:%d....\n", ip, port);
+    printf("try to connecting %s:%d...\n", ip, port);
 
     connect_status = connect(socket, (struct sockaddr *) & address, sizeof(struct sockaddr));
 
@@ -97,27 +104,27 @@ int listen_for_client (int socket, int backlog) {
 }
 
 void handle_incoming_client (int socket) {
-    int accept_status, close_status;
+    int fresh_socket, close_status;
     struct sockaddr_in address;
-    socklen_t address_len = sizeof(address);
+    socklen_t address_len = sizeof(struct sockaddr_in);
     struct in_addr client_ip;
     char * ip;
     unsigned short port;
 
     while ( 1 ) {
-        accept_status = accept(socket, (struct sockaddr *) & address, & address_len);
+        fresh_socket = accept(socket, (struct sockaddr *) & address, & address_len);
         client_ip = address.sin_addr;
         ip = inet_ntoa(client_ip);
         port = ntohs(address.sin_port);
 
-        if (accept_status == -1) {
+        if (fresh_socket == -1) {
             fprintf(stderr, "ERROR: unable to accept client %s:%d: %s\n", ip, port, strerror(errno));
             exit(EXIT_FAILURE);
         }
 
         printf("accept client %s:%d\n", ip, port);
 
-        close_status = close(socket);
+        close_status = close(fresh_socket);
 
         if (close_status == -1) {
             fprintf(stderr, "ERROR: unable to close connection with client %s:%d: %s\n", ip, port, strerror(errno));
