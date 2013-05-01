@@ -23,6 +23,9 @@ int main () {
     /* use create socket to connect address */
     create_connection(sock_id, address);
 
+    /* receive data from server */
+    receive_from_server(sock_id);
+
     /* close connection */
     close_connection(sock_id);
 

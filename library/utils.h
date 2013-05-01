@@ -8,6 +8,9 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <time.h>
+
+#define MAX_BUFFER 128
 
 void test_console_lib () {
     printf("library \"console.h\" is exists!\n");
@@ -103,6 +106,27 @@ int listen_for_client (int socket, int backlog) {
     return listen_status;
 }
 
+void receive_from_server (int socket) {
+    int in;
+    char buffer[MAX_BUFFER + 1];
+
+    /* get data from client */
+    while ( (in = read(socket, buffer, MAX_BUFFER)) > 0 ) {
+        buffer[in] = 0;
+        printf("\n%s", buffer);
+    }
+}
+
+void send_to_client (int socket) {
+    char time_buffer[MAX_BUFFER + 1];
+    time_t current_time;
+
+    current_time = time(NULL);
+    snprintf(time_buffer, MAX_BUFFER, "%s\n", ctime(&current_time));
+
+    write(socket, time_buffer, strlen(time_buffer));
+}
+
 void handle_incoming_client (int socket) {
     int fresh_socket, close_status;
     struct sockaddr_in address;
@@ -112,6 +136,7 @@ void handle_incoming_client (int socket) {
     unsigned short port;
 
     while ( 1 ) {
+        /* accept connection with client from from queue */
         fresh_socket = accept(socket, (struct sockaddr *) & address, & address_len);
         client_ip = address.sin_addr;
         ip = inet_ntoa(client_ip);
@@ -124,6 +149,10 @@ void handle_incoming_client (int socket) {
 
         printf("accept client %s:%d\n", ip, port);
 
+        /* send message to client */
+        send_to_client(fresh_socket);
+
+        /* close connection with client */
         close_status = close(fresh_socket);
 
         if (close_status == -1) {
