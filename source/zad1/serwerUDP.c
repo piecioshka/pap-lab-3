@@ -1,12 +1,14 @@
-/* server - lab3-4 - zadanie 1 */
+/**
+ * 1. Opracuj wersję klienta i serwera standardowej usługi time w wersji UDP 
+ * (opis usługi time jest zawarty w RFC 868 - www.rfc-editor.org).
+ */
 
-#include "../../library/utils.h"
+#include "../lib/libnetutils.h"
 
 #define PORT 13
 #define MAX_QUEUE 128
 
 int main () {
-    /* test_console_lib(); */
     int sock_id;
     struct sockaddr_in address;
 
@@ -27,7 +29,7 @@ int main () {
     listen_for_client(sock_id, MAX_QUEUE);
 
     /* handle client */
-    handle_incoming_client(sock_id);
+    handle_incoming_client(sock_id, 0);
 
     return 0;
 }

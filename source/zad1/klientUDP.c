@@ -20,7 +20,7 @@ int main () {
     printf("=== create client instance ===\n\n");
 
     /* create socket to connection */
-    sock_id = create_socket_tcp();
+    sock_id = create_socket_udp();
 
     /* use create socket to connect address */
     create_connection(sock_id, address);
