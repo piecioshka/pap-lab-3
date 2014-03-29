@@ -5,7 +5,7 @@
 
 #include "../lib/libnetutils.h"
 
-#define PORT 13
+#define PORT 37
 #define MAX_QUEUE 128
 
 int main () {
@@ -20,7 +20,7 @@ int main () {
     printf("=== create server ===\n\n");
 
     /* create socket */
-    sock_id = create_socket_tcp();
+    sock_id = create_socket_udp();
 
     /* bind server to defined port */
     bind_port(sock_id, address);

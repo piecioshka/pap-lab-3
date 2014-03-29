@@ -1,11 +1,12 @@
 /**
  * 1. Opracuj wersję klienta i serwera standardowej usługi time w wersji UDP 
  * (opis usługi time jest zawarty w RFC 868 - www.rfc-editor.org).
+ * http://www.rfc-editor.org/rfc/rfc868.txt
  */
 
 #include "../lib/libnetutils.h"
 
-#define PORT 13
+#define PORT 37
 #define DESC_IP "127.0.0.1"
 
 int main () {
@@ -24,6 +25,9 @@ int main () {
 
     /* use create socket to connect address */
     create_connection(sock_id, address);
+
+    /* send empty datagram */
+    send_empty_datagram(sock_id);
 
     /* receive data from server */
     receive_from_server(sock_id);
