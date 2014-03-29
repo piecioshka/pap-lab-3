@@ -24,7 +24,7 @@ int main () {
     sock_id = create_socket_udp();
 
     /* use create socket to connect address */
-    create_connection(sock_id, address);
+    create_connection_tcp(sock_id, address);
 
     /* send empty datagram */
     send_empty_datagram(sock_id);
