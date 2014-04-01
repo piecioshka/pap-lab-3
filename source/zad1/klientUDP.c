@@ -1,5 +1,5 @@
 /**
- * 1. Opracuj wersję klienta i serwera standardowej usługi time w wersji UDP 
+ * 1. Opracuj wersję klienta i serwera standardowej usługi time w wersji UDP
  * (opis usługi time jest zawarty w RFC 868 - www.rfc-editor.org).
  * http://www.rfc-editor.org/rfc/rfc868.txt
  */
@@ -11,12 +11,6 @@
 
 int main () {
     int sock_id;
-    struct sockaddr_in address;
-
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = inet_addr(DESC_IP);
-    address.sin_port = htons(PORT);
-    memset( &( address.sin_zero ), '\0', 8 );
 
     printf("=== create client instance ===\n\n");
 
@@ -24,7 +18,7 @@ int main () {
     sock_id = create_socket_udp();
 
     /* use create socket to connect address */
-    create_connection_tcp(sock_id, address);
+    create_connection_tcp(sock_id, DESC_IP, PORT);
 
     /* send empty datagram */
     send_empty_datagram(sock_id);
