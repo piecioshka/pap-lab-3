@@ -1,6 +1,7 @@
 /**
  * 1. Opracuj wersję klienta i serwera standardowej usługi time w wersji UDP
  * (opis usługi time jest zawarty w RFC 868 - www.rfc-editor.org).
+ * http://www.rfc-editor.org/rfc/rfc868.txt
  */
 
 #include "../lib/libnetutils.h"
@@ -23,7 +24,7 @@ int main () {
     listen_for_client_tcp(sock_id, MAX_QUEUE);
 
     /* handle client */
-    handle_incoming_client(sock_id, 0);
+    handle_incoming_client(sock_id, send_uptime_to_socket, 0);
 
     return 0;
 }
